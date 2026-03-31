@@ -2,9 +2,9 @@
   "name": "meeting-room-backend",
   "version": "1.0.0",
   "description": "Backend for Meto Workspaces",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

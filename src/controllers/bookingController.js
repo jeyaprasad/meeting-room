@@ -64,3 +64,17 @@ exports.createBooking = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.deleteBooking = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db.query("DELETE FROM bookings WHERE id = $1 RETURNING id", [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    res.json({ success: true, message: "Booking deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};

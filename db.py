@@ -1,0 +1,112 @@
+import os
+import json
+import psycopg2
+import psycopg2.extras
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# --- Room data (same as the original db.js) ---
+DEFAULT_ROOMS = [
+    { "id": 1,  "name": "Executive Boardroom",   "location": "Anna Nagar",       "area": "anna",    "type": "boardroom", "capacity": 12, "price": 1499, "original_price": 2999, "discount": "50% OFF", "amenities": ["HD Projector", "VC Setup", "Whiteboard", "AC"] },
+    { "id": 2,  "name": "Innovation Hub",         "location": "Nungambakkam",     "area": "nungam",  "type": "training",  "capacity": 20, "price": 1999, "original_price": 3499, "discount": "43% OFF", "amenities": ["Smart TV", "Flip Charts", "AC", "Wifi"] },
+    { "id": 3,  "name": "Focus Pod Alpha",         "location": "T. Nagar",         "area": "tnagar",  "type": "pod",       "capacity": 4,  "price": 499,  "original_price": 999,  "discount": "50% OFF", "amenities": ["Monitor", "AC", "Wifi", "Locker"] },
+    { "id": 4,  "name": "Tech Conference Room",    "location": "OMR / IT Corridor","area": "omr",     "type": "boardroom", "capacity": 16, "price": 1799, "original_price": 2999, "discount": "40% OFF", "amenities": ["Dual Screen", "VC Ready", "Whiteboard", "Tea"] },
+    { "id": 5,  "name": "Skyview Suite",           "location": "Nungambakkam",     "area": "nungam",  "type": "boardroom", "capacity": 8,  "price": 1299, "original_price": 2499, "discount": "48% OFF", "amenities": ["Projector", "AC", "Lounge", "Wifi"] },
+    { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "area": "guindy",  "type": "pod",       "capacity": 6,  "price": 699,  "original_price": 1299, "discount": "46% OFF", "amenities": ["TV Screen", "Whiteboard", "AC", "Wifi"] },
+    { "id": 7,  "name": "Training Hall A",         "location": "Anna Nagar",       "area": "anna",    "type": "training",  "capacity": 30, "price": 2499, "original_price": 4999, "discount": "50% OFF", "amenities": ["Projector", "Mics", "AC", "Stage"] },
+    { "id": 8,  "name": "Adyar Collaborate",       "location": "Adyar",            "area": "adyar",   "type": "pod",       "capacity": 6,  "price": 599,  "original_price": 999,  "discount": "40% OFF", "amenities": ["TV", "Sofa", "AC", "Wifi"] },
+]
+
+
+def get_connection():
+    """Create and return a new database connection."""
+    return psycopg2.connect(os.getenv("DATABASE_URL"))
+
+
+def init_db():
+    """
+    Drop old tables and recreate them (same as initDB() in db.js).
+    Then seed the rooms table if it's empty.
+    """
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        # Drop old tables cleanly
+        cur.execute("DROP TABLE IF EXISTS bookings CASCADE")
+        cur.execute("DROP TABLE IF EXISTS rooms CASCADE")
+        cur.execute("DROP TABLE IF EXISTS users CASCADE")
+
+        # Create users table
+        cur.execute("""
+            CREATE TABLE users (
+                id SERIAL PRIMARY KEY,
+                name TEXT,
+                email TEXT UNIQUE,
+                password TEXT,
+                role TEXT DEFAULT 'user'
+            )
+        """)
+
+        # Create rooms table
+        cur.execute("""
+            CREATE TABLE rooms (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                location TEXT,
+                area TEXT,
+                type TEXT,
+                capacity INTEGER,
+                price INTEGER,
+                original_price INTEGER,
+                discount TEXT,
+                amenities TEXT
+            )
+        """)
+
+        # Create bookings table
+        cur.execute("""
+            CREATE TABLE bookings (
+                id SERIAL PRIMARY KEY,
+                ref TEXT UNIQUE,
+                room_id INTEGER REFERENCES rooms(id),
+                user_id INTEGER REFERENCES users(id),
+                title TEXT,
+                date TEXT,
+                start_time TEXT,
+                end_time TEXT,
+                duration INTEGER,
+                attendees INTEGER,
+                addons TEXT,
+                total_cost INTEGER,
+                payment_status TEXT DEFAULT 'Confirmed',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        # Seed rooms data
+        cur.execute("SELECT COUNT(*) FROM rooms")
+        count = cur.fetchone()[0]
+        if count == 0:
+            for r in DEFAULT_ROOMS:
+                cur.execute(
+                    """INSERT INTO rooms
+                       (id, name, location, area, type, capacity, price, original_price, discount, amenities)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (
+                        r["id"], r["name"], r["location"], r["area"], r["type"],
+                        r["capacity"], r["price"], r["original_price"], r["discount"],
+                        json.dumps(r["amenities"])
+                    )
+                )
+
+        conn.commit()
+        print("✅ Database initialized successfully.")
+
+    except Exception as e:
+        conn.rollback()
+        print(f"❌ Database initialization failed: {e}")
+    finally:
+        cur.close()
+        conn.close()

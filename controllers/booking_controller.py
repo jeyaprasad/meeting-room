@@ -9,15 +9,15 @@ def get_bookings():
     cur = conn.cursor()
     try:
         query = """
-            SELECT b.id, b.ref, b.room_id, r.name AS room_name, r.location,
-                   b.date, b.start_time, b.duration, b.total_cost, b.payment_status
+            SELECT b.id, b.room_id, r.name AS room_name, r.location,
+                   b.date, b.start_time, b.duration
             FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN users u ON b.user_id = u.id
             {} ORDER BY b.created_at DESC
         """
         cur.execute(query.format("WHERE u.email = %s" if email else ""), (email,) if email else ())
         res = [
-            {"id":r[0], "ref":r[1], "roomId":r[2], "room":r[3], "location":r[4], "date":r[5], 
-             "time":r[6], "hrs":r[7], "total":r[8], "status":r[9]} for r in cur.fetchall()
+            {"id":r[0], "roomId":r[1], "room":r[2], "location":r[3], "date":r[4], 
+             "time":r[5], "hrs":r[6]} for r in cur.fetchall()
         ]
         return jsonify(res)
     except Exception as e:
@@ -29,9 +29,9 @@ def get_bookings():
 def create_booking():
     """POST /bookings - Creates a booking."""
     data = request.get_json()
-    ref, name, email = data.get("ref"), data.get("name"), data.get("email")
+    name, email = data.get("name"), data.get("email")
     room_id, date, time = data.get("roomId"), data.get("date"), data.get("time")
-    hrs, total = data.get("hrs"), data.get("total")
+    hrs = data.get("hrs")
 
     if not email or not name:
         return jsonify({"error": "Email and Name required"}), 400
@@ -44,7 +44,7 @@ def create_booking():
         if user is None:
             return jsonify({"error": "User authentication failed. Please sign in."}), 401
             
-        cur.execute("INSERT INTO bookings (ref, room_id, user_id, date, start_time, duration, total_cost) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id", (ref, room_id, user[0], date, time, hrs, total))
+        cur.execute("INSERT INTO bookings (room_id, user_id, date, start_time, duration) VALUES (%s, %s, %s, %s, %s) RETURNING id", (room_id, user[0], date, time, hrs))
         new_id = cur.fetchone()[0]
         conn.commit()
         return jsonify({"success": True, "id": new_id})

@@ -55,7 +55,6 @@ def init_db():
         cur.execute("""
             CREATE TABLE IF NOT EXISTS bookings (
                 id SERIAL PRIMARY KEY,
-                ref TEXT UNIQUE,
                 room_id INTEGER REFERENCES rooms(id),
                 user_id INTEGER REFERENCES users(id),
                 date TEXT,

@@ -220,7 +220,6 @@ async function createBooking() {
   }
 
   const payload = {
-    ref: 'REQ-' + Math.random().toString(36).substr(2,6).toUpperCase(),
     roomId, title, date, time: start, hrs: hrs,
     name: currentUser.name, email: currentUser.email
   };
@@ -262,12 +261,12 @@ function renderBookings() {
   el.innerHTML = `
     <table>
       <thead>
-        <tr><th>Ref ID</th><th>Asset Node</th><th>Date</th><th>Duration</th><th>Revoke</th></tr>
+        <tr><th>Booking ID</th><th>Asset Node</th><th>Date</th><th>Duration</th><th>Revoke</th></tr>
       </thead>
       <tbody>
         ${bookings.map(b => `
         <tr>
-          <td><span style="font-family:monospace; color:var(--primary); font-weight:600;">${b.ref || b.id}</span></td>
+          <td><span style="font-family:monospace; color:var(--primary); font-weight:600;">#${b.id}</span></td>
           <td style="font-weight:700">${b.room || b.roomName}<br><span style="font-size:0.8rem; font-weight:600; color:var(--text-soft)">📍 ${b.location || 'Unknown Location'}</span></td>
           <td>${b.date}</td>
           <td><span style="background:#f1f5f9; padding:4px 8px; border-radius:6px; font-weight:600;">${b.time} (${b.hrs} hr)</span></td>

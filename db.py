@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# --- Room data (same as the original db.js) ---
+# --- Database Seeding Defaults ---
 DEFAULT_ROOMS = [
     { "id": 1,  "name": "Executive Boardroom",   "location": "Anna Nagar",       "area": "anna",    "type": "boardroom", "capacity": 12, "price": 1499, "original_price": 2999, "discount": "50% OFF", "amenities": ["HD Projector", "VC Setup", "Whiteboard", "AC"] },
     { "id": 2,  "name": "Innovation Hub",         "location": "Nungambakkam",     "area": "nungam",  "type": "training",  "capacity": 20, "price": 1999, "original_price": 3499, "discount": "43% OFF", "amenities": ["Smart TV", "Flip Charts", "AC", "Wifi"] },
@@ -16,17 +16,12 @@ DEFAULT_ROOMS = [
     { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "area": "guindy",  "type": "pod",       "capacity": 6,  "price": 699,  "original_price": 1299, "discount": "46% OFF", "amenities": ["TV Screen", "Whiteboard", "AC", "Wifi"] }
 ]
 
-
 def get_connection():
     """Create and return a new database connection."""
     return psycopg2.connect(os.getenv("DATABASE_URL"))
 
-
 def init_db():
-    """
-    Drop old tables and recreate them (same as initDB() in db.js).
-    Then seed the rooms table if it's empty.
-    """
+    """Initialize database tables and seed if empty."""
     conn = get_connection()
     cur = conn.cursor()
 

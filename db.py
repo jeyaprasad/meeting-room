@@ -26,14 +26,9 @@ def init_db():
     cur = conn.cursor()
 
     try:
-        # Drop old tables cleanly
-        cur.execute("DROP TABLE IF EXISTS bookings CASCADE")
-        cur.execute("DROP TABLE IF EXISTS rooms CASCADE")
-        cur.execute("DROP TABLE IF EXISTS users CASCADE")
-
         # Create users table
         cur.execute("""
-            CREATE TABLE users (
+            CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 name TEXT,
                 email TEXT UNIQUE,
@@ -44,7 +39,7 @@ def init_db():
 
         # Create rooms table
         cur.execute("""
-            CREATE TABLE rooms (
+            CREATE TABLE IF NOT EXISTS rooms (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 location TEXT,
@@ -60,7 +55,7 @@ def init_db():
 
         # Create bookings table
         cur.execute("""
-            CREATE TABLE bookings (
+            CREATE TABLE IF NOT EXISTS bookings (
                 id SERIAL PRIMARY KEY,
                 ref TEXT UNIQUE,
                 room_id INTEGER REFERENCES rooms(id),

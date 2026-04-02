@@ -240,7 +240,10 @@ async function createBooking() {
       showToast(`Booking Confirmed.`, 'success');
       clearForm();
       setTimeout(() => switchAppTab('bookings', 'My Schedule'), 800);
-    } else { showToast('Conflict detected', 'error'); }
+    } else { 
+      const errData = await res.json().catch(()=>({}));
+      showToast(errData.error || 'Conflict detected', 'error'); 
+    }
   } catch(e) { showToast('Network Error', 'error'); }
 }
 

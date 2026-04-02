@@ -10,12 +10,14 @@ load_dotenv()
 DEFAULT_ROOMS = [
 # --- Database Seeding Defaults ---
 DEFAULT_ROOMS = [
-    { "id": 1,  "name": "Executive Boardroom",   "location": "Anna Nagar",       "area": "anna",    "type": "boardroom", "capacity": 12 },
-    { "id": 2,  "name": "Innovation Hub",         "location": "Nungambakkam",     "area": "nungam",  "type": "training",  "capacity": 20 },
-    { "id": 3,  "name": "Focus Pod Alpha",         "location": "T. Nagar",         "area": "tnagar",  "type": "pod",       "capacity": 4 },
-    { "id": 4,  "name": "Tech Conference Room",    "location": "OMR / IT Corridor","area": "omr",     "type": "boardroom", "capacity": 16 },
-    { "id": 5,  "name": "Skyview Suite",           "location": "Nungambakkam",     "area": "nungam",  "type": "boardroom", "capacity": 8 },
-    { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "area": "guindy",  "type": "pod",       "capacity": 6 }
+# --- Database Seeding Defaults ---
+DEFAULT_ROOMS = [
+    { "id": 1,  "name": "Executive Boardroom",   "location": "Anna Nagar",       "type": "boardroom", "capacity": 12 },
+    { "id": 2,  "name": "Innovation Hub",         "location": "Nungambakkam",     "type": "training",  "capacity": 20 },
+    { "id": 3,  "name": "Focus Pod Alpha",         "location": "T. Nagar",         "type": "pod",       "capacity": 4 },
+    { "id": 4,  "name": "Tech Conference Room",    "location": "OMR / IT Corridor","type": "boardroom", "capacity": 16 },
+    { "id": 5,  "name": "Skyview Suite",           "location": "Nungambakkam",     "type": "boardroom", "capacity": 8 },
+    { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "type": "pod",       "capacity": 6 }
 ]
 
 def get_connection():
@@ -34,8 +36,7 @@ def init_db():
                 id SERIAL PRIMARY KEY,
                 name TEXT,
                 email TEXT UNIQUE,
-                password TEXT,
-                role TEXT DEFAULT 'user'
+                password TEXT
             )
         """)
 
@@ -45,7 +46,6 @@ def init_db():
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 location TEXT,
-                area TEXT,
                 type TEXT,
                 capacity INTEGER
             )
@@ -72,10 +72,10 @@ def init_db():
             for r in DEFAULT_ROOMS:
                 cur.execute(
                     """INSERT INTO rooms
-                       (id, name, location, area, type, capacity)
-                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                       (id, name, location, type, capacity)
+                       VALUES (%s, %s, %s, %s, %s)""",
                     (
-                        r["id"], r["name"], r["location"], r["area"], r["type"], r["capacity"]
+                        r["id"], r["name"], r["location"], r["type"], r["capacity"]
                     )
                 )
 

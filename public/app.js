@@ -77,7 +77,6 @@ function logout() {
 async function checkAuthSetup() {
   if (currentUser) {
     document.getElementById('navUserName').innerText = currentUser.name;
-    document.getElementById('navUserRole').innerText = "Member";
     document.getElementById('bookName').value = currentUser.name;
     document.getElementById('logoutBtn').innerText = "Log Out";
 

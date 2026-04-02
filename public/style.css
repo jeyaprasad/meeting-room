@@ -76,7 +76,6 @@ input:focus, select:focus { border-color: var(--primary); background: #fff; box-
 .user-profile-info { cursor: pointer; padding: 6px; border-radius: 8px; transition: transform 0.2s, background 0.2s; flex: 1; }
 .user-profile-info:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
 .user-name { font-weight: 600; color: #fff; font-size: 0.85rem; display: block; }
-.user-role { font-size: 0.75rem; color: var(--sidebar-text); background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin-top:4px; display:inline-block; }
 .logout-btn { background: transparent; border: 1px solid #334155; color: var(--sidebar-text); padding: 6px 10px; font-size: 0.75rem; border-radius: 6px; cursor: pointer; transition:0.2s; }
 .logout-btn:hover { background: #1e293b; color:#fff; }
 

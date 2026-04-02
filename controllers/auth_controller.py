@@ -16,10 +16,10 @@ def register():
         if cur.fetchone():
             return jsonify({"error": "Email is already registered"}), 409
 
-        cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s) RETURNING id, role", (name, email, password))
+        cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s) RETURNING id", (name, email, password))
         new_user = cur.fetchone()
         conn.commit()
-        return jsonify({"success": True, "user": {"id": new_user[0], "name": name, "email": email, "role": new_user[1]}})
+        return jsonify({"success": True, "user": {"id": new_user[0], "name": name, "email": email}})
     except Exception as e:
         conn.rollback()
         return jsonify({"error": str(e)}), 500
@@ -38,7 +38,7 @@ def login():
     conn = get_connection()
     cur = conn.cursor()
     try:
-        cur.execute("SELECT id, name, email, password, role FROM users WHERE email = %s", (email,))
+        cur.execute("SELECT id, name, email, password FROM users WHERE email = %s", (email,))
         user_record = cur.fetchone()
         if user_record is None:
             return jsonify({"error": "Invalid email or password"}), 401
@@ -48,7 +48,7 @@ def login():
             return jsonify({"error": "This account was created without a password. Please register again."}), 401
 
         if stored_password == password:
-            return jsonify({"success": True, "user": {"id": user_record[0], "name": user_record[1], "email": user_record[2], "role": user_record[4]}})
+            return jsonify({"success": True, "user": {"id": user_record[0], "name": user_record[1], "email": user_record[2]}})
         else:
             return jsonify({"error": "Invalid email or password"}), 401
     except Exception as e:

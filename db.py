@@ -60,13 +60,9 @@ def init_db():
                 ref TEXT UNIQUE,
                 room_id INTEGER REFERENCES rooms(id),
                 user_id INTEGER REFERENCES users(id),
-                title TEXT,
                 date TEXT,
                 start_time TEXT,
-                end_time TEXT,
                 duration INTEGER,
-                attendees INTEGER,
-                addons TEXT,
                 total_cost INTEGER,
                 payment_status TEXT DEFAULT 'Confirmed',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

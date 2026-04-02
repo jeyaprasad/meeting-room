@@ -107,10 +107,10 @@ input:focus, select:focus { border-color: var(--primary); background: #fff; box-
 .stat-val { font-size: 2.5rem; font-weight: 800; margin-bottom: 4px; background: linear-gradient(135deg, var(--primary), #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing:-0.03em; }
 .stat-lbl { font-size: 0.8rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.05em; }
 
-.rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.rooms-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .room-card { overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
 .room-card:hover { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12); border-color: #cbd5e1; }
-.room-visual { height: 180px; background: #e2e8f0; position: relative; border-radius: 16px 16px 0 0; overflow:hidden;}
+.room-visual { height: 140px; background: #e2e8f0; position: relative; border-radius: 16px 16px 0 0; overflow:hidden;}
 .room-visual img { width: 100%; height: 100%; object-fit: cover; }
 .badge { position: absolute; top: 16px; right: 16px; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing:0.05em; }
 .badge.available { background: rgba(5,150,105,0.15); color: #059669; backdrop-filter:blur(8px); border: 1px solid rgba(5,150,105,0.3); }
@@ -151,50 +151,9 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
 
 <div class="app-container">
 
-  <!-- 1. LANDING PAGE -->
-  <div class="view-section active" id="sec-landing">
-    <nav class="landing-nav">
-      <div class="landing-logo">
-        <img src="logo.jpg" alt="Logo" class="custom-logo">
-        BookMyRoom
-      </div>
-      <div class="landing-nav-links">
-        <button class="btn btn-ghost" onclick="navTo('auth')">Sign In</button>
-        <button class="btn btn-primary" onclick="navTo('auth', 'register')">Get Started</button>
-      </div>
-    </nav>
-    <div class="landing-hero">
-      <div class="hero-content">
-        <span class="hero-badge">Workspace Operating System</span>
-        <h1 class="hero-title">Intelligent Office<br><span>Collaboration.</span></h1>
-        <p class="hero-desc">Securely reserve enterprise meeting rooms, invite attendees, and prevent double-booking conflicts instantly.</p>
-        <button class="btn btn-primary" style="align-self:flex-start; padding:16px 32px; font-size:1.1rem; border-radius: 12px; margin-bottom: 32px;" onclick="navTo('auth')">Enter Platform</button>
-        <div class="hero-features">
-          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Centralized Admin</span>
-          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Real-Time Conflict Sync</span>
-          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Role-Based Permissions</span>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="mockup-card">
-          <div class="mockup-header">
-            <div class="mockup-dot" style="background:#f87171"></div>
-            <div class="mockup-dot" style="background:#fbbf24"></div>
-            <div class="mockup-dot" style="background:#34d399"></div>
-          </div>
-          <img class="mockup-img" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=800" alt="Office App Mockup">
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- 2. SPLIT SCREEN LOGIN -->
   <div class="view-section" id="sec-auth">
     <div class="auth-page" id="authPage">
-      <button class="auth-back" onclick="navTo('landing')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        Return to Home
-      </button>
       
       <div class="auth-visual">
         <div class="auth-quote">
@@ -212,11 +171,11 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
             </div>
             <div class="form-group">
               <label>Email Address</label>
-              <input type="email" id="loginEmail" placeholder="employee@corp.com" value="admin@meto.com">
+              <input type="email" id="loginEmail" placeholder="customer@email.com">
             </div>
             <div class="form-group">
-              <label>Full Name <span style="color:#2563eb; font-weight:normal; font-size:0.75rem">(Ident Verification)</span></label>
-              <input type="text" id="loginName" placeholder="Admin User" value="Admin User">
+              <label>Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password">
             </div>
             <button class="btn btn-primary" style="width:100%; padding:14px; font-size:1.05rem; margin-top:8px;" onclick="submitAuth('login')">Sign In</button>
             <div class="toggle-text">Don't have an account? <a href="javascript:void(0)" onclick="toggleSlide()">Request Access</a></div>
@@ -228,11 +187,15 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
             </div>
             <div class="form-group">
               <label>Full Legal Name</label>
-              <input type="text" id="regName" placeholder="John Doe">
+              <input type="text" id="regName" placeholder="Govindhan">
             </div>
             <div class="form-group">
               <label>Work Email</label>
-              <input type="email" id="regEmail" placeholder="employee@corp.com">
+              <input type="email" id="regEmail" placeholder="customer@email.com">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="regPassword" placeholder="Enter Your password">
             </div>
             <button class="btn btn-primary" style="width:100%; padding:14px; font-size:1.05rem; margin-top:8px;" onclick="submitAuth('register')">Create Account</button>
             <div class="toggle-text">Already have an account? <a href="javascript:void(0)" onclick="toggleSlide()">Sign In</a></div>
@@ -242,33 +205,10 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
     </div>
   </div>
 
-  <!-- SEC-PAYMENT: FULL PAGE CHECKOUT -->
-  <div class="view-section" id="sec-payment" style="background:#f8fafc; z-index:1000; position:fixed; inset:0; overflow-y:auto;">
-    <div style="min-height: 100vh; display:flex; align-items:center; justify-content:center; padding: 40px;">
-      <div class="card" style="max-width:550px; width:100%; padding:60px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.06); border:none;">
-        <div style="width:80px; height:80px; background:#eff6ff; color:var(--primary); border-radius:24px; display:flex; align-items:center; justify-content:center; margin:0 auto 32px; box-shadow: 0 10px 20px rgba(37,99,235,0.15);">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 3.5 0 0 0 0 7h5a3.5 3.5 3.5 0 0 1 0 7H6"></path></svg>
-        </div>
-        <h2 style="font-size:2.2rem; font-weight:800; color:var(--text); letter-spacing:-0.03em; margin-bottom:12px;">Secure Checkout</h2>
-        <p style="color:var(--text-soft); font-size:1.1rem; margin-bottom:40px;">Finalize your requisition for the selected asset.</p>
-        
-        <div style="margin-top:32px; font-weight:800; color:var(--text); font-size:3rem; letter-spacing:-0.04em;" id="paymentPageAmount">₹0</div>
-        
-        <div style="display:flex; gap:16px; margin-top:48px;">
-          <button class="btn btn-ghost" style="flex:1; padding:18px; font-size:1.1rem;" onclick="cancelPaymentPage()">Cancel Transaction</button>
-          <button class="btn btn-primary" style="flex:1; padding:18px; font-size:1.1rem; display:flex; justify-content:center; gap:8px;" onclick="confirmPaymentPage()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Authorize Payment
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
 
   <!-- 4. APP DASHBOARD -->
-  <div class="view-section" id="sec-app">
+  <div class="view-section active" id="sec-app">
     <div class="app-wrapper">
       <aside class="sidebar">
         <div class="logo-wrap" style="padding: 32px 24px; display: flex; align-items: center;">
@@ -284,17 +224,20 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
         <div class="sidebar-bottom">
           <div class="user-profile">
             <div class="user-profile-info" onclick="switchAppTab('profile', 'My Account')">
-              <span class="user-name" id="navUserName">Loading...</span>
-              <span class="user-role" id="navUserRole">Member</span>
+              <span class="user-name" id="navUserName">Guest</span>
+              <span class="user-role" id="navUserRole">Not logged in</span>
             </div>
-            <button class="logout-btn" onclick="logout()">Log Out</button>
+            <button class="logout-btn" id="logoutBtn" onclick="currentUser ? logout() : navTo('auth')">Log In</button>
           </div>
         </div>
       </aside>
 
       <main class="main-content">
         <div class="top-nav">
-          <div class="page-title" id="pageTitle">Dashboard</div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <button id="headerBackBtn" style="display:none; padding:8px 16px; border-radius:12px; font-weight:700; background:#f1f5f9; color:#1e293b; border:none; cursor:pointer;" onclick="goBack()">&larr; Back</button>
+            <div class="page-title" id="pageTitle">Dashboard</div>
+          </div>
           <div class="header-date" id="headerDate"></div>
         </div>
         <div class="view-area">
@@ -336,7 +279,7 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
                 <div class="form-group"><label>Duration (Hours)</label><input type="number" id="bookEnd" value="1" min="1"></div>
               </div>
               <div style="display:flex; gap:16px; margin-top: 40px;">
-                <button class="btn btn-primary" style="padding: 16px 32px; font-size:1.05rem;" onclick="createBooking()">Proceed to Payment</button>
+                <button class="btn btn-primary" style="padding: 16px 32px; font-size:1.05rem;" onclick="createBooking()">Confirm Booking</button>
                 <button class="btn btn-ghost" onclick="clearForm()">Clear Fields</button>
               </div>
             </div>
@@ -385,7 +328,6 @@ td { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 0.95
 let rooms = [];
 let bookings = [];
 let currentUser = JSON.parse(localStorage.getItem('meto_user') || 'null');
-let pendingBooking = null;
 
 const placeholderImages = {
   1: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600",
@@ -408,42 +350,74 @@ function navTo(sect, param = null) {
 
 function toggleSlide() { document.getElementById('authPage').classList.toggle('register-mode'); }
 
-// MOCKED LOCAL LOGIN
-function submitAuth(type) {
+// SECURE BACKEND LOGIN
+async function submitAuth(type) {
   const isLogin = type === 'login';
   const email = document.getElementById(isLogin ? 'loginEmail' : 'regEmail').value;
-  const name = isLogin ? document.getElementById('loginName').value : document.getElementById('regName').value;
-
-  if(!email || !name) { showToast('Name and Email required', 'error'); return; }
-
-  currentUser = { name: name, email: email, role: 'Employee' };
-  localStorage.setItem('meto_user', JSON.stringify(currentUser));
+  const password = document.getElementById(isLogin ? 'loginPassword' : 'regPassword').value;
   
-  checkAuthSetup();
-  navTo('app');
-  showToast(`Welcome to BookMyRoom, ${currentUser.name}!`, 'success');
+  if (!email || !password) { showToast('Email and Password required', 'error'); return; }
+  
+  const payload = { email, password };
+  if (!isLogin) {
+    const name = document.getElementById('regName').value;
+    if (!name) { showToast('Name required', 'error'); return; }
+    payload.name = name;
+  }
+
+  try {
+    const endpoint = isLogin ? '/api/login' : '/api/register';
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    
+    const data = await res.json();
+    
+    if (res.ok && data.success) {
+      currentUser = data.user;
+      localStorage.setItem('meto_user', JSON.stringify(currentUser));
+      checkAuthSetup();
+      navTo('app');
+      showToast(isLogin ? `Welcome back, ${currentUser.name}!` : `Account created for ${currentUser.name}!`, 'success');
+      
+      // Clear password fields
+      if(isLogin) document.getElementById('loginPassword').value = '';
+      else document.getElementById('regPassword').value = '';
+    } else {
+      showToast(data.error || 'Authentication failed', 'error');
+    }
+  } catch (e) {
+    showToast('Network error during authentication', 'error');
+  }
 }
 
 function logout() {
   currentUser = null;
   localStorage.removeItem('meto_user');
-  navTo('landing');
-  showToast('Session terminated.', 'success');
+  sessionStorage.removeItem('meto_history');
+  sessionStorage.removeItem('meto_active_tab');
+  sessionStorage.removeItem('meto_active_title');
+  location.reload();
 }
 
 async function checkAuthSetup() {
   if (currentUser) {
     document.getElementById('navUserName').innerText = currentUser.name;
+    document.getElementById('navUserRole').innerText = "Member";
     document.getElementById('bookName').value = currentUser.name;
+    document.getElementById('logoutBtn').innerText = "Log Out";
     
     try {
       const resR = await fetch('/rooms');
       rooms = await resR.json();
       await fetchBookings();
-      switchAppTab('rooms', 'Dashboard');
+      
+      const lastTab = sessionStorage.getItem('meto_active_tab') || 'rooms';
+      const lastTitle = sessionStorage.getItem('meto_active_title') || 'Dashboard';
+      switchAppTab(lastTab, lastTitle, true);
     } catch(e) { showToast('Error fetching backend', 'error'); }
-  } else {
-    navTo('landing');
   }
 }
 
@@ -470,7 +444,7 @@ function renderHeroStats() {
 
 function renderRooms() {
   const roomSelect = document.getElementById('bookRoom');
-  roomSelect.innerHTML = rooms.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+  roomSelect.innerHTML = rooms.map(r => `<option value="${r.id}">${r.name} - ${r.location}</option>`).join('');
 
   document.getElementById('roomsGrid').innerHTML = rooms.map(r => {
     const features = r.amenities || [];
@@ -481,6 +455,7 @@ function renderRooms() {
         </div>
         <div class="room-body">
           <div class="room-name">${r.name}</div>
+          <div style="font-size:0.85rem; color:var(--text-soft); font-weight:600; margin-bottom:6px;">📍 ${r.location}</div>
           <div class="room-cap">👤 Cap: ${r.capacity} Personnel &bull; ${r.emoji || '🏢'}</div>
           <div class="room-features">
             ${features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
@@ -502,6 +477,17 @@ async function checkAvailability() {
   
   if(!date) { showToast('Required: Date parameter.', 'error'); return; }
   
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (date === todayStr) {
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    const [h, m] = from.split(':').map(Number);
+    if (h * 60 + m < currentMins) {
+      showToast('Cannot search availability for past times.', 'error');
+      return;
+    }
+  }
+  
   try {
     const res = await fetch(`/rooms/available?date=${date}&time=${from}&duration=${duration}`);
     const data = await res.json();
@@ -520,7 +506,8 @@ async function checkAvailability() {
             <div style="font-size:2rem; width:60px; height:60px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center;">${r.emoji || '🏢'}</div>
             <div>
               <div style="font-size:1.2rem; font-weight:800; color:var(--text);">${r.name}</div>
-              <div style="font-size:0.9rem; color:var(--text-soft); font-weight:500; margin-top:6px;">Cap: ${r.capacity} &bull; ₹${r.price}/hr</div>
+              <div style="font-size:0.9rem; color:var(--primary); font-weight:700; margin-top:2px;">📍 ${r.location}</div>
+              <div style="font-size:0.9rem; color:var(--text-soft); font-weight:500; margin-top:4px;">Cap: ${r.capacity} &bull; ₹${r.price}/hr</div>
             </div>
           </div>
           <button class="btn btn-primary" onclick="selectAndBook(${r.id}, '${date}', '${from}', '${duration}')">Draft Requisition</button>
@@ -538,7 +525,7 @@ function selectAndBook(id, date, start, dur) {
   switchAppTab('book', 'New Reservation');
 }
 
-function createBooking() {
+async function createBooking() {
   const roomId = parseInt(document.getElementById('bookRoom').value);
   const title = document.getElementById('bookTitle').value.trim();
   const date = document.getElementById('bookDate').value;
@@ -547,31 +534,24 @@ function createBooking() {
   
   if(!roomId || !title || !date || !start || !hrs) { showToast('Incomplete payload.', 'error'); return; }
   
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (date === todayStr) {
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    const [h, m] = start.split(':').map(Number);
+    if (h * 60 + m < currentMins) {
+      showToast('Cannot create a booking in the past.', 'error');
+      return;
+    }
+  }
+  
   const room = rooms.find(r => r.id === roomId);
   const totalCost = room.price * parseInt(hrs);
 
-  pendingBooking = { 
+  const payload = { 
     ref: 'REQ-' + Math.random().toString(36).substr(2,6).toUpperCase(),
-    roomId, title, date, startTime: start, hrs: hrs, 
-    totalCost, name: currentUser.name, email: currentUser.email
-  };
-
-  document.getElementById('paymentPageAmount').innerText = `₹${totalCost.toLocaleString('en-IN')}`;
-  document.getElementById('sec-payment').classList.add('active');
-}
-
-async function confirmPaymentPage() {
-  if(!pendingBooking) return;
-  const payload = {
-    ref: pendingBooking.ref,
-    name: pendingBooking.name,
-    email: pendingBooking.email,
-    roomId: pendingBooking.roomId,
-    date: pendingBooking.date,
-    time: pendingBooking.startTime,
-    hrs: pendingBooking.hrs,
-    total: pendingBooking.totalCost,
-    title: pendingBooking.title
+    roomId, title, date, time: start, hrs: hrs, 
+    total: totalCost, name: currentUser.name, email: currentUser.email
   };
 
   try {
@@ -581,25 +561,20 @@ async function confirmPaymentPage() {
       body: JSON.stringify(payload)
     });
     if (res.ok) {
-      document.getElementById('sec-payment').classList.remove('active');
       fetchBookings();
-      showToast(`Payment of ₹${pendingBooking.totalCost} Confirmed.`, 'success');
+      showToast(`Booking Confirmed.`, 'success');
       clearForm();
-      pendingBooking = null;
       setTimeout(() => switchAppTab('bookings', 'My Schedule'), 800);
     } else { showToast('Conflict detected', 'error'); }
   } catch(e) { showToast('Network Error', 'error'); }
 }
 
-function cancelPaymentPage() {
-  document.getElementById('sec-payment').classList.remove('active');
-  pendingBooking = null;
-  showToast('Transaction cancelled.', 'error');
-}
-
 function clearForm() {
   document.getElementById('bookTitle').value = '';
-  document.getElementById('bookDate').value = new Date().toISOString().split('T')[0];
+  const todayStr = new Date().toISOString().split('T')[0];
+  const bookDateEl = document.getElementById('bookDate');
+  bookDateEl.value = todayStr;
+  bookDateEl.min = todayStr;
   document.getElementById('bookStart').value = "09:00";
   document.getElementById('bookEnd').value = 1;
 }
@@ -619,11 +594,11 @@ function renderBookings() {
         ${bookings.map(b => `
         <tr>
           <td><span style="font-family:monospace; color:var(--primary); font-weight:600;">${b.ref || b.id}</span></td>
-          <td style="font-weight:700">${b.room || b.roomName}</td>
+          <td style="font-weight:700">${b.room || b.roomName}<br><span style="font-size:0.8rem; font-weight:600; color:var(--text-soft)">📍 ${b.location || 'Unknown Location'}</span></td>
           <td>${b.date}</td>
           <td><span style="background:#f1f5f9; padding:4px 8px; border-radius:6px; font-weight:600;">${b.time} (${b.hrs} hr)</span></td>
           <td>₹${b.total.toLocaleString()}</td>
-          <td><span style="padding:4px 8px; border-radius:12px; font-size:0.75rem; font-weight:700; background:#ecfdf5; color:var(--success);">PAID</span></td>
+          <td><span style="padding:4px 8px; border-radius:12px; font-size:0.75rem; font-weight:700; background:#ecfdf5; color:var(--success);">CONFIRMED</span></td>
           <td><button class="delete-btn" onclick="deleteBooking(${b.id})">Revoke</button></td>
         </tr>`).join('')}
       </tbody>
@@ -645,8 +620,32 @@ function showToast(msg, type='success') {
   setTimeout(() => t.remove(), 3000);
 }
 
-function switchAppTab(id, titleText = '') {
+let appHistory = JSON.parse(sessionStorage.getItem('meto_history') || '[]');
+
+function switchAppTab(id, titleText = '', isBack = false) {
+  if (!currentUser && (id === 'book' || id === 'bookings' || id === 'profile')) {
+    navTo('auth');
+    showToast('Please sign in to access this feature.', 'error');
+    return;
+  }
+
   const ids = ['rooms', 'available', 'book', 'bookings', 'profile'];
+  
+  const activeTab = document.querySelector('.app-view.active');
+  const activeId = activeTab ? activeTab.id.replace('view-', '') : null;
+  const activeTitle = document.getElementById('pageTitle').innerText;
+  
+  if (!isBack && activeId && activeId !== id) {
+    appHistory.push({ id: activeId, title: activeTitle });
+    sessionStorage.setItem('meto_history', JSON.stringify(appHistory));
+  }
+  
+  const backBtn = document.getElementById('headerBackBtn');
+  if(backBtn) backBtn.style.display = appHistory.length > 0 ? 'inline-block' : 'none';
+  
+  sessionStorage.setItem('meto_active_tab', id);
+  if(titleText) sessionStorage.setItem('meto_active_title', titleText);
+
   document.querySelectorAll('.nav-item').forEach((t, i) => { if (t) t.classList.toggle('active', ids[i] === id); });
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + id).classList.add('active');
@@ -657,6 +656,14 @@ function switchAppTab(id, titleText = '') {
   if(id === 'bookings') renderBookings();
   if(id === 'book') clearForm();
   if(id === 'profile') renderProfile();
+}
+
+function goBack() {
+  if (appHistory.length > 0) {
+    const prev = appHistory.pop();
+    sessionStorage.setItem('meto_history', JSON.stringify(appHistory));
+    switchAppTab(prev.id, prev.title, true);
+  }
 }
 
 function renderProfile() {
@@ -673,11 +680,19 @@ function renderProfile() {
 function init() {
   document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
   const todayStr = new Date().toISOString().split('T')[0];
-  document.getElementById('availDate').value = todayStr;
-  document.getElementById('bookDate').value = todayStr;
+  const availDateEl = document.getElementById('availDate');
+  availDateEl.value = todayStr;
+  availDateEl.min = todayStr;
   
-  if (localStorage.getItem('meto_user')) checkAuthSetup();
-  else navTo('landing');
+  const bookDateEl = document.getElementById('bookDate');
+  bookDateEl.value = todayStr;
+  bookDateEl.min = todayStr;
+  
+  if (currentUser) {
+    checkAuthSetup();
+  } else {
+    navTo('auth');
+  }
 }
 
 init();

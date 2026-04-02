@@ -13,6 +13,7 @@ from flask_cors import CORS
 import os
 
 from db import init_db
+from controllers.auth_controller import register, login
 from controllers.booking_controller import get_bookings, create_booking, delete_booking
 from controllers.room_controller import get_all_rooms, get_available_rooms
 
@@ -26,6 +27,19 @@ CORS(app)  # Allow the HTML frontend to call our API (like cors() in Express)
 def index():
     """Serve bookings.html as the main page (same as app.get('/', ...) in server.js)"""
     return send_from_directory("public", "bookings.html")
+
+
+# --- Room Routes (replaces roomRoutes.js) ---
+@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
+def api_register():
+    return register()
+
+
+@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    return login()
 
 
 # --- Room Routes (replaces roomRoutes.js) ---

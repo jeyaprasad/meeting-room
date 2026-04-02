@@ -91,13 +91,9 @@ def create_booking():
         user = cur.fetchone()
 
         if user is None:
-            cur.execute(
-                "INSERT INTO users (name, email) VALUES (%s, %s) RETURNING id",
-                (name, email)
-            )
-            user_id = cur.fetchone()[0]
-        else:
-            user_id = user[0]
+            return jsonify({"error": "User authentication failed. Please sign in."}), 401
+            
+        user_id = user[0]
 
         # Insert the booking
         cur.execute("""

@@ -45,6 +45,7 @@ def get_available_rooms():
     date     = request.args.get("date")
     time_str = request.args.get("time")
     duration = request.args.get("duration")
+    loc_param = request.args.get("location")
 
     conn = get_connection()
     cur = conn.cursor()
@@ -94,6 +95,9 @@ def get_available_rooms():
                 unavailable_ids.add(b_room_id)
 
         available_rooms = [r for r in all_rooms if r["id"] not in unavailable_ids]
+
+        if loc_param:
+            available_rooms = [r for r in available_rooms if r["location"].lower() == loc_param.lower()]
 
         return jsonify({
             "available_rooms_count": len(available_rooms),

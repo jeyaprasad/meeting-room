@@ -13,9 +13,7 @@ DEFAULT_ROOMS = [
     { "id": 3,  "name": "Focus Pod Alpha",         "location": "T. Nagar",         "area": "tnagar",  "type": "pod",       "capacity": 4,  "price": 499,  "original_price": 999,  "discount": "50% OFF", "amenities": ["Monitor", "AC", "Wifi", "Locker"] },
     { "id": 4,  "name": "Tech Conference Room",    "location": "OMR / IT Corridor","area": "omr",     "type": "boardroom", "capacity": 16, "price": 1799, "original_price": 2999, "discount": "40% OFF", "amenities": ["Dual Screen", "VC Ready", "Whiteboard", "Tea"] },
     { "id": 5,  "name": "Skyview Suite",           "location": "Nungambakkam",     "area": "nungam",  "type": "boardroom", "capacity": 8,  "price": 1299, "original_price": 2499, "discount": "48% OFF", "amenities": ["Projector", "AC", "Lounge", "Wifi"] },
-    { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "area": "guindy",  "type": "pod",       "capacity": 6,  "price": 699,  "original_price": 1299, "discount": "46% OFF", "amenities": ["TV Screen", "Whiteboard", "AC", "Wifi"] },
-    { "id": 7,  "name": "Training Hall A",         "location": "Anna Nagar",       "area": "anna",    "type": "training",  "capacity": 30, "price": 2499, "original_price": 4999, "discount": "50% OFF", "amenities": ["Projector", "Mics", "AC", "Stage"] },
-    { "id": 8,  "name": "Adyar Collaborate",       "location": "Adyar",            "area": "adyar",   "type": "pod",       "capacity": 6,  "price": 599,  "original_price": 999,  "discount": "40% OFF", "amenities": ["TV", "Sofa", "AC", "Wifi"] },
+    { "id": 6,  "name": "Sprint Room",             "location": "Guindy",           "area": "guindy",  "type": "pod",       "capacity": 6,  "price": 699,  "original_price": 1299, "discount": "46% OFF", "amenities": ["TV Screen", "Whiteboard", "AC", "Wifi"] }
 ]
 
 

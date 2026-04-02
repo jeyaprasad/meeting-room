@@ -182,7 +182,7 @@ async function checkAvailability() {
             <div>
               <div style="font-size:1.2rem; font-weight:800; color:var(--text);">${r.name}</div>
               <div style="font-size:0.9rem; color:var(--primary); font-weight:700; margin-top:2px;">📍 ${r.location}</div>
-              <div style="font-size:0.9rem; color:var(--text-soft); font-weight:500; margin-top:4px;">Cap: ${r.capacity} &bull; ₹${r.price}/hr</div>
+              <div style="font-size:0.9rem; color:var(--text-soft); font-weight:500; margin-top:4px;">Cap: ${r.capacity} &bull; Meeting space</div>
             </div>
           </div>
           <button class="btn btn-primary" onclick="selectAndBook(${r.id}, '${date}', '${from}', '${duration}')">Draft Requisition</button>
@@ -220,13 +220,10 @@ async function createBooking() {
     }
   }
 
-  const room = rooms.find(r => r.id === roomId);
-  const totalCost = room.price * parseInt(hrs);
-
   const payload = {
     ref: 'REQ-' + Math.random().toString(36).substr(2,6).toUpperCase(),
     roomId, title, date, time: start, hrs: hrs,
-    total: totalCost, name: currentUser.name, email: currentUser.email
+    name: currentUser.name, email: currentUser.email
   };
 
   try {
@@ -266,7 +263,7 @@ function renderBookings() {
   el.innerHTML = `
     <table>
       <thead>
-        <tr><th>Ref ID</th><th>Asset Node</th><th>Date</th><th>Duration</th><th>Total Cost</th><th>Status</th><th>Revoke</th></tr>
+        <tr><th>Ref ID</th><th>Asset Node</th><th>Date</th><th>Duration</th><th>Revoke</th></tr>
       </thead>
       <tbody>
         ${bookings.map(b => `
@@ -275,8 +272,6 @@ function renderBookings() {
           <td style="font-weight:700">${b.room || b.roomName}<br><span style="font-size:0.8rem; font-weight:600; color:var(--text-soft)">📍 ${b.location || 'Unknown Location'}</span></td>
           <td>${b.date}</td>
           <td><span style="background:#f1f5f9; padding:4px 8px; border-radius:6px; font-weight:600;">${b.time} (${b.hrs} hr)</span></td>
-          <td>₹${b.total.toLocaleString()}</td>
-          <td><span style="padding:4px 8px; border-radius:12px; font-size:0.75rem; font-weight:700; background:#ecfdf5; color:var(--success);">CONFIRMED</span></td>
           <td><button class="delete-btn" onclick="deleteBooking(${b.id})">Revoke</button></td>
         </tr>`).join('')}
       </tbody>
@@ -349,9 +344,9 @@ function renderProfile() {
   document.getElementById('profileName').innerText = currentUser.name;
   document.getElementById('profileEmail').innerText = currentUser.email || 'No email associated';
 
-  const totalSpent = bookings.reduce((sum, b) => sum + Number(b.total), 0);
+  const totalHrs = bookings.reduce((sum, b) => sum + Number(b.hrs || 0), 0);
 
-  document.getElementById('profileTotalSpent').innerText = `₹${totalSpent.toLocaleString('en-IN')}`;
+  document.getElementById('profileTotalSpent').innerText = `${totalHrs} Hrs`;
   document.getElementById('profileTotalBookings').innerText = bookings.length;
 }
 
